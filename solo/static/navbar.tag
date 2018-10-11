@@ -4,7 +4,7 @@
         <section class="navbar-section">
             <a href="index.html" class="btn btn-link">
                 <i class="fas fa-crosshairs"></i>
-                SOLO - CANTINA
+                ENRON WARS
             </a>
         </section>
     </header>
