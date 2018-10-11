@@ -1,11 +1,10 @@
 # installation
 
-    pip3 install bottle
+    apt install python3-pip
+    apt install libev-dev
+    pip3 install -r requirements.txt
 
 the built in development server should suffice, otherwise install bjoern.
-
-    apt install libev-dev
-    pip3 install bjoern
 
 ## development
 
