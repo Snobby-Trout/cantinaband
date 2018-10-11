@@ -1,10 +1,13 @@
-import base64, bottle, threading
+import base64, bottle, threading, pickle
+import numpy as np
 
 
 _lock = threading.Lock()
 _topics = []
 _graph_bytes = open('solo/facebook-graph-search-job-search.jpg', 'rb').read()
 
+#TODO: Add pickle loading of email embeddings
+_emailEmbeddings = np.zeros([10,512])
 
 def init():
     # do model initialisation stuff here
@@ -21,11 +24,22 @@ def init():
     _topics.append('Tipping')
 
 
+def calculateEmbedding(seachList):
+    #TODO: Implement embedding
+    return np.zeros([512])
+
 @bottle.get('/tags')
 def tags():
     bottle.response.add_header('content-type', 'application/json')
     return bottle.json_dumps(_topics)
 
+def embeddingSearch(embedding, threshold=0.9):
+    #TODO: Implement pytorch embedding search
+    listOfCalculatedIndices = []
+    return listOfCalculatedIndices
+
+def getReturnedEmails(indices):
+    return None
 
 @bottle.post('/search')
 def search():
@@ -33,6 +47,13 @@ def search():
         # do your model lookup stuff here - _lock protects it against multiple users making queries at the same time
         # bottle.request.json is a ready to go python dict
         print(bottle.request.json)
+
+        # calculate the embedding from the request
+        embedding = calculateEmbedding(bottle.request.json)
+
+        # get an array of distances
+        calculatedIndices = embeddingSearch(embedding)
+
         # replace matches with the result of your model search, sorted by score, keep the same JSON structure
         # replace _graph_bytes with the binary data for your image, use io.BytesIO to save a PIL image into bytes
         # data:image/jpeg;base64 IS important - replace jpeg with png for png format
