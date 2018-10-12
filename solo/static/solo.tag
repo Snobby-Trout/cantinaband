@@ -2,26 +2,11 @@
     <div class="solo-topics">
         <div class="container form-group">
             <autotags label="topics" options={ fetch('/tags') } onupdate={ onTags }></autotags><br />
-            <div>
-                <img class="graph_div" src={ responseGraph() } class="solo-img">
-                <div class="sender_results">
-                    <table hide={noResults}>
-                        <thead>
-                            <tr>
-                                <td>key</td>
-                                <td>value</td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr each={this.senders}>
-                                <td>{key}</td>
-                                <td>{value}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+            <div class="row">
+                <div sytle="width: 70%" class="column graph_div"><img src={ responseGraph() } class="solo-img"></div>
+                <div style="width: 30%;" class="column" id="chartContainer"></div>
             </div>
-        </div> <br />
+        </div><br />
         <div each={ response.matches } class="card solo-card">
             <div class="card-header">
                 <div class="card-title h5">{ name }</div>
@@ -33,18 +18,33 @@
                 </div>
             </div>
             </li>
-        </div>
+        </div><br />
     </div>
+        <div>
+            <dftable header={ response.tableheader } data={ response.fakemails } width="100" height="auto"></dftable>
+        </div>
     </div>
 
     <style>
         .container {
             height: auto;
         }
+        
+        .column {
+            float: left;
+        }
 
-        .sender_results {
-            float:right;
+        /* Clear floats after the columns */
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .bar_graph {
             width: 30%;
+            height: 370px;
+            margin: 10px;
         }
 
         .graph_div {
@@ -70,15 +70,11 @@
 
     response = {};
 
-    noResults = true;
+    showResults = false;
 
     responseGraph() {
         return this.response.graph || ''
     }
-
-    this.senders = []
-
-    // riot.mount('testtable', {rows: this.data, start: new Date})[0]
 
     onTags(tags) {
         console.log('searching for', tags)
@@ -90,6 +86,8 @@
         this.search(tags)
     }
 
+    this.matches = {}
+    
     search(tags) {
         fetch('/search', {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(tags)})
             .then(response => response.json())
@@ -98,15 +96,43 @@
                 this.update()
             })
 
-            for (var i = 0; i < 10; i++) {
-                this.senders.push({
-                key: `test sender ${i}`,
-                value: 10 - i
-            })
+        console.log(this.matches)
+        showResults = true;
+     
+        var chart = new CanvasJS.Chart("chartContainer", {
+            animationEnabled: true,
+            
+            title:{
+                text:"People of Relevance"
+            },
+            axisX:{
+                interval: 1
+            },
+            axisY2:{
+                interlacedColor: "rgba(1,77,101,.2)",
+                gridColor: "rgba(1,77,101,.1)",
+            },
+            data: [{
+                type: "bar",
+                name: "people",
+                axisYType: "secondary",
+                color: "#014D65",
+                dataPoints: [{ y: 34, label: "James" },
+                { y: 31, label: "Fred" },
+                { y: 28, label: "Jane" },
+                { y: 18, label: "Mark" },
+                { y: 12, label: "Wilma" },
+                { y: 10, label: "Sarah" },
+                { y: 8, label: "Ada" },
+                { y: 8, label: "Graham" },
+                { y: 5, label: "Lila" }]
+            }]
+        });
 
-            noResults = false;
-        }
-        
+        chart.render();
     }
+        
+    
+    
 
 </solo>
