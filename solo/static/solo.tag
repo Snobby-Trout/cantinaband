@@ -117,22 +117,20 @@
                 name: "people",
                 axisYType: "secondary",
                 color: "#014D65",
-                dataPoints: [{ y: 34, label: "James" },
-                { y: 31, label: "Fred" },
-                { y: 28, label: "Jane" },
-                { y: 18, label: "Mark" },
-                { y: 12, label: "Wilma" },
-                { y: 10, label: "Sarah" },
-                { y: 8, label: "Ada" },
-                { y: 8, label: "Graham" },
-                { y: 5, label: "Lila" }]
+                dataPoints:[{ y: 0.0270, label: "sara.shackleton@enron.com" },
+                    { y: 0.0191, label: "mark.taylor@enron.com" },
+                    { y: 0.0187, label: "edmund.cooper@enron.com" },
+                    { y: 0.0129, label: "debra.perlingiere@enron.com" },
+                    { y: 0.0128, label: "lisa.mellencamp@enron.com" },
+                    { y: 0.0118, label: "jerome_alder@dell.com" },
+                    { y: 0.0096, label: "kay.mann@enron.com" },
+                    { y: 0.0088, label: "tana.jones@enron.com" },
+                    { y: 0.0083, label: "richard.sanders@enron.com" }]
             }]
         });
 
         chart.render();
     }
         
-    
-    
 
 </solo>
